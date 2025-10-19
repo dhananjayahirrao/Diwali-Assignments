@@ -1,0 +1,55 @@
+package com.demo.test;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.demo.exceptionclass.LowAttendence;
+import com.demo.model.Student;
+
+public class Test {
+
+	public static void main(String[] args) {
+
+
+		List<Student> slist = new ArrayList<>();
+		
+		slist.add(new Student(1, "Amit", "Java", 85, 92));
+		slist.add(new Student(2, "Sneha", "Python", 58, 75));
+		slist.add(new Student(3, "Rahul", "C++", 90, 88));
+		slist.add(new Student(4, "Priya", "Java", 77, 79));
+		slist.add(new Student(5, "Ravi", "C#", 65, 81));
+		slist.add(new Student(6, "Neha", "Java", 50, 55));
+        slist.add(new Student(7, "Karan", "Python", 95, 97));
+        slist.add(new Student(8, "Pooja", "C++", 68, 72));
+        slist.add(new Student(9, "Vikas", "Java", 87, 89));
+        slist.add(new Student(10, "Anjali", "C#", 92, 90));
+        
+        
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("students.dat"))) {
+            oos.writeObject(slist);
+            System.out.println("Students serialized successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        
+        Collections.sort(slist, (s1, s2) -> Double.compare(s2.getAttendance(), s1.getAttendance()));
+        
+        
+        System.out.println("\nStudents in decreasing order of attendance:");
+        for (Student s : slist) {
+            System.out.println(s);
+            try {
+                System.out.println("Grade: " + s.calculateGrade());
+            } catch (LowAttendence e) {
+                System.out.println("Grade: Not Calculated → " + e.getMessage());
+            }
+        }
+
+	}
+
+}

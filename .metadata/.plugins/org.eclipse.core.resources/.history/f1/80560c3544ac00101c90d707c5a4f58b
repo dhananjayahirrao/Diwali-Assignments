@@ -1,0 +1,5 @@
+package com.demo.exceptionclass;
+
+public class LowAttendence {
+
+}
